@@ -16,7 +16,7 @@
             <sparkle:version>1.0.0</sparkle:version>
             <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.1/PasteMe.dmg" length="2959484" type="application/octet-stream" sparkle:edSignature="km1uTBdyvMwLpVtvv31+ZouugGm6fr6A5GyJiviJmiUZQkeLcVQagZElUKT3Lh9kFOG+voeiKYbL8s65zBESCg=="/>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.1/PasteMe.dmg" length="2958569" type="application/octet-stream" sparkle:edSignature="sjoSNaEjQBOleSOhcuxrIS8mVsryuhgxeSR3H7xhXEoUZC5YaqQTTBiwEu1bI5XyfyRudBfATKJJ6bEVIJzYCw=="/>
         </item>
     </channel>
 </rss>
