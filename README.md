@@ -11,6 +11,9 @@
 
   [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O4O61T9M1O)
 
+  <br />
+  <p>🇺🇸 <a href="README.md">English</a> | 🇻🇳 <a href="README_VI.md">Tiếng Việt</a></p>
+
 </div>
 
 ---
