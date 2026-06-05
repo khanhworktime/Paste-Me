@@ -250,6 +250,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             window.title = "Settings"
             window.titlebarAppearsTransparent = true
             window.isReleasedWhenClosed = false
+            window.isOpaque = false
+            window.backgroundColor = .clear
             
             // 👇 QUAN TRỌNG: Gán delegate để xử lý khi đóng
             window.delegate = self
