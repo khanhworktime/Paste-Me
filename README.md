@@ -1,7 +1,7 @@
 <div align="center">
   <img src="PasteMe/Assets.xcassets/AppIcon.appiconset/256.png" alt="PasteMe Logo" width="128" />
-  <h1>Paste Me</h1>
-  <p><strong>A beautifully crafted, blazing fast clipboard manager for macOS.</strong></p>
+  <h1>Paste Me - Modern Clipboard Manager for macOS</h1>
+  <p><strong>🚀 Accelerate your workflow with a sleek, fast, and seamless clipboard manager.</strong></p>
 
   [![macOS 14.0+](https://img.shields.io/badge/macOS-14.0%2B-success.svg?style=flat-square&logo=apple)](https://www.apple.com/macos/)
   [![Swift 5](https://img.shields.io/badge/Swift-5-orange.svg?style=flat-square&logo=swift)](https://swift.org)
@@ -10,70 +10,56 @@
   <br />
 
   [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O4O61T9M1O)
-  <br />
-  <a href="https://ko-fi.com/O4O61T9M1O"><img src="https://storage.ko-fi.com/cdn/brandasset/v2/support_me_on_kofi_beige.png" width="200" alt="Support me on Ko-fi" /></a>
 
 </div>
 
 ---
 
-## ✨ Features
+Have you ever accidentally overwritten important content? Or wasted time searching for a link you copied earlier in the day? PasteMe is the solution for you. Built with the latest SwiftUI, PasteMe delivers a truly native and lightweight experience on macOS.
 
-- **Fluid Horizontal Layout:** A stunning, unobtrusive horizontal carousel that blends perfectly with your macOS environment using native Glassmorphism.
-- **Rich Media Previews:** Instantly preview copied text, links, colors, code snippets, and images right from the history.
-- **Light & Dark Mode Ready:** Beautifully adapts to your system theme.
-- **Blazing Fast & Lightweight:** Built entirely with SwiftUI and SwiftData, highly optimized for Apple Silicon to consume minimal CPU and RAM.
-- **Auto-Updates:** Built-in Sparkle integration ensures you always have the latest improvements without redownloading.
-- **Keyboard Driven:** Navigate, search, and paste your history without ever touching the mouse.
+## ✨ Key Features
 
-## 🚀 Installation
+- **Unlimited Clipboard History:** Automatically saves everything you copy, from Text and Links to Images.
+- **Visual Interface:** Say goodbye to boring text lists. PasteMe displays your history as intuitive Cards, helping you identify content instantly.
+- **Lightning Fast Search:** Just type, and PasteMe filters the content you need in a split second.
+- **Quick Look:** Press `Space` to preview content details (especially useful for images) without pasting.
+- **Pro Keyboard Shortcuts:**
+  - `Left/Right Arrows`: Navigate history.
+  - `Enter`: Paste directly into the active app.
+  - `Ctrl + ←`: Jump back to the most recent item.
+- **Drag & Drop:** Drag images or text from PasteMe directly into Photoshop, Finder, or your browser.
+- **Smart & Secure:** Clearly displays the Source App of copied content. Data is stored locally on your machine for maximum privacy.
 
-### Download the latest Release
+## 🎨 Native macOS Design
+
+PasteMe features a modern Glassmorphism aesthetic, blending perfectly with the macOS interface. Fully supports both Dark Mode and Light Mode.
+
+## 📥 Installation Instructions
+
 1. Go to the [Releases](https://github.com/khanhworktime/Paste-Me/releases) page.
 2. Download the latest `PasteMe.dmg` file.
 3. Open the DMG and drag **Paste Me** into your `Applications` folder.
 4. Launch the app and grant the necessary Accessibility permissions (required to paste text into other applications).
 
-*(Paste Me is properly notarized by Apple, so it will open without any Gatekeeper warnings!)*
+*(Paste Me is properly notarized by Apple, so it will open safely without any Gatekeeper malware warnings!)*
+
+Future updates will be handled automatically via the built-in Sparkle update system.
 
 ## 🛠 Building from Source
 
-If you prefer to build the app yourself or want to contribute to the project:
+If you prefer to build the app yourself:
+- Requires macOS 14.0+ and Xcode 15+
+- Clone the repository, open `PasteMe.xcodeproj`, select your Development Team, and hit `Cmd + R`.
 
-### Prerequisites
-- macOS 14.0 Sonoma or later
-- Xcode 15 or later
+## 📩 Support
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/khanhworktime/Paste-Me.git
-   cd Paste-Me
-   ```
-2. Open `PasteMe.xcodeproj` in Xcode.
-3. Select your development team in **Signing & Capabilities**.
-4. Hit `Cmd + R` to build and run!
+If you encounter any issues or have suggestions, please feel free to reach out:
+- **Email:** risty.toaster.dev@gmail.com
 
-## 🤝 Contributing
-
-Contributions are always welcome! Whether it's a bug report, feature request, or a pull request:
-1. Fork the project.
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4. Push to the branch (`git push origin feature/AmazingFeature`).
-5. Open a Pull Request.
-
-## 💖 Support the Project
-
-Paste Me is built with love and provided entirely for free. If you find this app helpful in your daily workflow, consider buying me a coffee! It helps keep the project alive and maintained.
+Thank you for supporting indie software! ❤️
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O4O61T9M1O)
 
 ## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-
----
-<div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/khanhworktime">Vo Chi Khanh</a></sub>
-</div>
