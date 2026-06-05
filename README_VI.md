@@ -13,6 +13,13 @@
 
   <br />
   <p>🇺🇸 <a href="README.md">English</a> | 🇻🇳 <a href="README_VI.md">Tiếng Việt</a></p>
+
+  <br />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/MiniMac.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/MiniMac-light.png">
+    <img alt="PasteMe Screenshot" src="assets/MiniMac-light.png" width="800">
+  </picture>
 </div>
 
 ---
@@ -26,6 +33,7 @@ Bạn đã bao giờ vô tình ghi đè lên nội dung quan trọng chưa? Ho�
 - **Tìm Kiếm Siêu Tốc:** Chỉ cần gõ phím, PasteMe sẽ lọc nội dung bạn cần trong tích tắc.
 - **Xem Nhanh (Quick Look):** Nhấn phím `Space` để xem trước chi tiết nội dung (đặc biệt hữu ích với hình ảnh) mà không cần dán ra.
 - **Phím Tắt Chuyên Nghiệp:**
+  - `Cmd + Shift + V`: Bật/tắt PasteMe ở bất kỳ đâu để xem lịch sử clipboard.
   - `Mũi tên Trái/Phải`: Điều hướng lịch sử.
   - `Enter`: Dán trực tiếp vào ứng dụng đang mở.
   - `Ctrl + ←`: Quay lại ngay mục vừa sao chép gần nhất.

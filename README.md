@@ -14,6 +14,13 @@
   <br />
   <p>🇺🇸 <a href="README.md">English</a> | 🇻🇳 <a href="README_VI.md">Tiếng Việt</a></p>
 
+  <br />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/MiniMac.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/MiniMac-light.png">
+    <img alt="PasteMe Screenshot" src="assets/MiniMac-light.png" width="800">
+  </picture>
+
 </div>
 
 ---
@@ -27,6 +34,7 @@ Have you ever accidentally overwritten important content? Or wasted time searchi
 - **Lightning Fast Search:** Just type, and PasteMe filters the content you need in a split second.
 - **Quick Look:** Press `Space` to preview content details (especially useful for images) without pasting.
 - **Pro Keyboard Shortcuts:**
+  - `Cmd + Shift + V`: Toggle PasteMe anywhere to view your clipboard history.
   - `Left/Right Arrows`: Navigate history.
   - `Enter`: Paste directly into the active app.
   - `Ctrl + ←`: Jump back to the most recent item.
