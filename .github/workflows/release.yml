@@ -53,23 +53,34 @@ jobs:
             "dist/PasteMe.dmg" \
             "dist/PasteMe.app"
 
-      - name: Generate Sparkle Signature
-        id: sparkle_sign
-        env:
-          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          echo "$SPARKLE_PRIVATE_KEY" > sparkle_key.pem
-          ./sparkle_bin/bin/sign_update "dist/PasteMe.dmg" --ed-key-file sparkle_key.pem > release_info.txt
-          rm sparkle_key.pem
-          
-          cat release_info.txt
-
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          repository: khanhworktime/paste-me-release
-          token: ${{ secrets.RELEASE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             dist/PasteMe.dmg
-            release_info.txt
 
+      - name: Setup Appcast Directory
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git clone --branch gh-pages https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git gh-pages || (mkdir gh-pages && cd gh-pages && git init && git checkout -b gh-pages && git remote add origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git)
+          cp dist/PasteMe.dmg gh-pages/
+
+      - name: Generate Sparkle Appcast
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          echo "$SPARKLE_PRIVATE_KEY" | ./sparkle_bin/bin/generate_appcast --ed-key-file - --download-url-prefix https://github.com/khanhworktime/Paste-Me/releases/download/${{ github.ref_name }}/ gh-pages/
+          
+      - name: Publish Appcast
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd gh-pages
+          rm PasteMe.dmg
+          git add appcast.xml
+          git commit -m "chore: update appcast for ${{ github.ref_name }}" || echo "No changes to appcast"
+          git push -u origin gh-pages

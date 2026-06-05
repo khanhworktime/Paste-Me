@@ -5,9 +5,9 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://khanhworktime.github.io/paste-me-release/appcast.xml</string>
+	<string>https://khanhworktime.github.io/Paste-Me/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>MxG011/DcXxVpOQ0cG/txXCe8IHtdgkcJUdXOPjXNv0=</string>
+	<string>eOXNLNqcGEEE2VG2LyEOs/PLDTT/o4RH0CuYTu/cIBI=</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
 </dict>
