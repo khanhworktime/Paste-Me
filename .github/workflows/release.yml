@@ -17,7 +17,7 @@ jobs:
             macos_version: "14.0"
             dmg_name: "PasteMe.dmg"
           - target: "MacOS26"
-            macos_version: "15.0"
+            macos_version: "26.0"
             dmg_name: "PasteMe-MacOS26.dmg"
             
     steps:
