@@ -229,10 +229,70 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     @MainActor
     @objc func openSettings() {
-        // Trigger the native SwiftUI Settings Scene
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        // 1. Nếu cửa sổ đã tồn tại -> Focus vào nó luôn và return
+        if let window = settingsWindow {
+            window.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
         
-        // Bring app to foreground
+        // 2. Nếu chưa -> Tạo mới
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 600, height: 450),
+            styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView],
+            backing: .buffered,
+            defer: false
+        )
+        
+        // 3. Cấu hình
+        window.center()
+        window.setFrameAutosaveName("Settings")
+        window.title = "Settings"
+        window.titlebarAppearsTransparent = true
+        window.isReleasedWhenClosed = false
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        
+        window.delegate = self
+        
+        // Apply current theme
+        let theme = UserDefaults.standard.string(forKey: "appTheme") ?? "system"
+        switch theme {
+        case "light": window.appearance = NSAppearance(named: .aqua)
+        case "dark": window.appearance = NSAppearance(named: .darkAqua)
+        default: window.appearance = nil
+        }
+        
+        // 4. Native Glass Effect Structure
+        let visualEffect = NSVisualEffectView()
+        visualEffect.material = .underWindowBackground
+        visualEffect.blendingMode = .behindWindow
+        visualEffect.state = .active
+        window.contentView = visualEffect
+        
+        let hostingView: NSHostingView<AnyView>
+        if let mainContext = self.modelContainer?.mainContext {
+            hostingView = NSHostingView(rootView: AnyView(SettingsView().modelContext(mainContext)))
+        } else {
+            hostingView = NSHostingView(rootView: AnyView(SettingsView()))
+        }
+        
+        // MUST MAKE HOSTING VIEW BACKGROUND CLEAR SO IT DOES NOT BLOCK NSVisualEffectView
+        hostingView.layer?.backgroundColor = NSColor.clear.cgColor
+        hostingView.wantsLayer = true
+        
+        hostingView.translatesAutoresizingMaskIntoConstraints = false
+        visualEffect.addSubview(hostingView)
+        
+        NSLayoutConstraint.activate([
+            hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
+            hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
+            hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
+            hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor)
+        ])
+        
+        self.settingsWindow = window
+        window.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
         

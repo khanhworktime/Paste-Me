@@ -13,13 +13,11 @@ struct PasteMeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
-        Settings {
-            if let container = appDelegate.modelContainer {
-                SettingsView()
-                    .modelContainer(container)
-            } else {
-                SettingsView()
-            }
+        // Since this is a menu bar extra app, we do not use native Settings scene,
+        // we use a custom NSWindow in AppDelegate.
+        MenuBarExtra("PasteMe", systemImage: "paperclip") {
+            // Note: MenuBar is manually constructed in AppDelegate,
+            // so we can leave this mostly empty or define it in AppDelegate.
         }
         .commands {
             // Thêm menu vào thanh hệ thống
