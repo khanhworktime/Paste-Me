@@ -4,6 +4,25 @@
         <title>PasteMe</title>
         <item>
             <title>1.0.2</title>
+            <pubDate>Fri, 05 Jun 2026 21:35:52 +0000</pubDate>
+            <sparkle:version>1.1.1.15</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.1/PasteMe-MacOS26.dmg" length="3019814" type="application/octet-stream" sparkle:edSignature="pPdyjZzwHBx0+j3NHCrbHshg/M6sv8bXg3eKtVH6U0tbw60I/VQbs9b4ouwmxwurxf6riExWzK8RY1Fq60PcBw=="/>
+            <sparkle:deltas>
+                <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.1/PasteMe1.1.1.15-1.1.1.delta" sparkle:deltaFrom="1.1.1" length="86906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="980432" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="s79WWGZ0sDv6KtWfqe2gbo2pdmygefWA6horJkAgM+tev1M+rYUKeel7FITMcR9w5EDGQEwiTnCElb9n0AKCCA=="/>
+            </sparkle:deltas>
+        </item>
+        <item>
+            <title>1.0.2</title>
+            <pubDate>Fri, 05 Jun 2026 21:35:52 +0000</pubDate>
+            <sparkle:version>1.1.1</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.1/PasteMe.dmg" length="3022096" type="application/octet-stream" sparkle:edSignature="UfqFoe0+mNQZ3hsl/X40Hj/ijzczl2ZVnCIYpsDcEuFozjIzq7w6gYW85tZQ2W4bs8Vnv9EnxHhJr0AwIi+wBA=="/>
+        </item>
+        <item>
+            <title>1.0.2</title>
             <pubDate>Fri, 05 Jun 2026 21:24:06 +0000</pubDate>
             <sparkle:version>1.1.0.15</sparkle:version>
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
@@ -50,14 +69,6 @@
             <sparkle:deltas>
                 <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.8/PasteMe1.0.8.15-1.0.8.delta" sparkle:deltaFrom="1.0.8" length="85298" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="980432" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="RRR1sMBVe8fQmJ8PTS477OKkcFRFihR5j4pV5gbPFjS+JB2KW5PJt+7GDrAdJTAx17z8JV2PW8JWl0u//U4YCQ=="/>
             </sparkle:deltas>
-        </item>
-        <item>
-            <title>1.0.2</title>
-            <pubDate>Fri, 05 Jun 2026 21:14:22 +0000</pubDate>
-            <sparkle:version>1.0.8</sparkle:version>
-            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.8/PasteMe.dmg" length="3021627" type="application/octet-stream" sparkle:edSignature="HxrjZaHtxlrPCLT9Rcku75wTo+SDZrRS0wINdure54KTrzDyBlQ6Vwb7tsQP31Nc1rlj6rDtT3tyHrsagJYIBQ=="/>
         </item>
     </channel>
 </rss>
