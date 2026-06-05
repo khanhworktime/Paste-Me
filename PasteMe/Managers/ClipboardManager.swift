@@ -59,6 +59,14 @@ class ClipboardManager: ObservableObject {
         let appName = frontApp?.localizedName
         let bundleID = frontApp?.bundleIdentifier
         
+        // 0. Check Ignored Apps
+        let ignoredAppsString = UserDefaults.standard.string(forKey: "ignoredApps") ?? "1Password,Keychain Access,Bitwarden"
+        let ignoredApps = ignoredAppsString.split(separator: ",").map { String($0).trimmingCharacters(in: .whitespaces) }
+        
+        if let name = appName, ignoredApps.contains(name) {
+            return
+        }
+        
         // 1. Check Files first (highest priority)
         if let urls = pb.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL],
            !urls.isEmpty {
@@ -90,7 +98,9 @@ class ClipboardManager: ObservableObject {
                 iconData = png
             }
             
+            
             onNewItemDetected?(nil, nil, "file", appName, bundleID, paths, fileName, iconData, nil, nil, nil)
+            playSoundIfNeeded()
             return
         }
         
@@ -110,6 +120,7 @@ class ClipboardManager: ObservableObject {
             lastCapturedFiles = nil
             
             onNewItemDetected?(nil, png, "image", appName, bundleID, nil, nil, nil, nil, nil, nil)
+            playSoundIfNeeded()
             return
         }
         
@@ -145,6 +156,13 @@ class ClipboardManager: ObservableObject {
                 nil,        // urlFavicon (fetched later)
                 nil         // urlOther (fetched later)
             )
+            playSoundIfNeeded()
+        }
+    }
+    
+    private func playSoundIfNeeded() {
+        if UserDefaults.standard.bool(forKey: "playSoundOnCopy") {
+            NSSound(named: "Glass")?.play()
         }
     }
 }

@@ -179,6 +179,42 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "q"))
         statusItem.menu = menu
+        
+        // Register defaults
+        UserDefaults.standard.register(defaults: [
+            "historyLimit": 100,
+            "autoClearDays": 30,
+            "showMenuBarIcon": true,
+            "playSoundOnCopy": false,
+            "appTheme": "system",
+            "pasteAsPlainText": false
+        ])
+        
+        statusItem.isVisible = UserDefaults.standard.bool(forKey: "showMenuBarIcon")
+        
+        // Observe UserDefaults changes
+        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+            self?.statusItem.isVisible = UserDefaults.standard.bool(forKey: "showMenuBarIcon")
+            self?.applyTheme()
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("HotkeyChanged"), object: nil, queue: .main) { [weak self] _ in
+            self?.hotKeyManager?.updateHotKey()
+        }
+        applyTheme()
+    }
+    
+    func applyTheme() {
+        let theme = UserDefaults.standard.string(forKey: "appTheme") ?? "system"
+        let appearance: NSAppearance?
+        switch theme {
+        case "light": appearance = NSAppearance(named: .aqua)
+        case "dark": appearance = NSAppearance(named: .darkAqua)
+        default: appearance = nil // System default
+        }
+        
+        panel.appearance = appearance
+        settingsWindow?.appearance = appearance
     }
     
     @objc func openAppFromMenu() {
@@ -212,8 +248,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             // 👇 QUAN TRỌNG: Gán delegate để xử lý khi đóng
             window.delegate = self
             
-            // 4. Gán Content
-            window.contentView = NSHostingView(rootView: SettingsView())
+            // Apply current theme
+            let theme = UserDefaults.standard.string(forKey: "appTheme") ?? "system"
+            switch theme {
+            case "light": window.appearance = NSAppearance(named: .aqua)
+            case "dark": window.appearance = NSAppearance(named: .darkAqua)
+            default: window.appearance = nil
+            }
+            
+            // 4. Gán Content (Inject ModelContext)
+            if let mainContext = self.modelContainer?.mainContext {
+                window.contentView = NSHostingView(rootView: SettingsView().modelContext(mainContext))
+            } else {
+                window.contentView = NSHostingView(rootView: SettingsView())
+            }
             
             self.settingsWindow = window
             window.makeKeyAndOrderFront(nil)
@@ -257,13 +305,25 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             )
             context.insert(newItem)
             
-            // Keep only 30 items
             do {
                 let descriptor = FetchDescriptor<ClipItem>(sortBy: [SortDescriptor(\.createdAt, order: .reverse)])
                 let allItems = try context.fetch(descriptor)
-                if allItems.count > 30 {
-                    for item in allItems.suffix(from: 30) { context.delete(item) }
+                
+                // Enforce History Limit
+                let historyLimit = UserDefaults.standard.integer(forKey: "historyLimit")
+                let limit = historyLimit == 0 ? Int.max : historyLimit // 0 means Unlimited
+                if allItems.count > limit {
+                    for item in allItems.suffix(from: limit) { context.delete(item) }
                 }
+                
+                // Enforce Auto-Clear
+                let autoClearDays = UserDefaults.standard.integer(forKey: "autoClearDays")
+                if autoClearDays > 0, let cutoffDate = Calendar.current.date(byAdding: .day, value: -autoClearDays, to: Date()) {
+                    for item in allItems where item.createdAt < cutoffDate {
+                        context.delete(item)
+                    }
+                }
+                
                 try context.save()
             } catch { print("DB Error: \(error)") }
             
@@ -343,6 +403,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         hotKeyManager = HotKeyManager()
         hotKeyManager?.onHotKeyPushed = { [weak self] in
             self?.toggleWindow()
+        }
+        
+        hotKeyManager?.onClearHistoryPushed = { [weak self] in
+            guard let context = self?.modelContainer?.mainContext else { return }
+            do {
+                try context.delete(model: ClipItem.self)
+                try context.save()
+            } catch {
+                print("Failed to clear history via hotkey: \(error)")
+            }
         }
     }
     
