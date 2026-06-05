@@ -56,7 +56,7 @@ Nếu bạn muốn tự build ứng dụng:
 ## 📩 Hỗ Trợ
 
 Nếu bạn gặp bất kỳ vấn đề nào hoặc có góp ý, xin đừng ngần ngại liên hệ:
-- **Email:** risty.toaster.dev@gmail.com
+- **Email:** krist.dev.vn@gmail.com
 
 Cảm ơn bạn đã ủng hộ phần mềm độc lập (indie software)! ❤️
 

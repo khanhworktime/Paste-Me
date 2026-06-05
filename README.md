@@ -57,7 +57,7 @@ If you prefer to build the app yourself:
 ## 📩 Support
 
 If you encounter any issues or have suggestions, please feel free to reach out:
-- **Email:** risty.toaster.dev@gmail.com
+- **Email:** krist.dev.vn@gmail.com
 
 Thank you for supporting indie software! ❤️
 
