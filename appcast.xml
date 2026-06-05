@@ -4,6 +4,14 @@
         <title>PasteMe</title>
         <item>
             <title>1.0.2</title>
+            <pubDate>Fri, 05 Jun 2026 20:48:55 +0000</pubDate>
+            <sparkle:version>1.0.6</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.6/PasteMe.dmg" length="3021264" type="application/octet-stream" sparkle:edSignature="iFlCQg153cFwxvH2MT8tFwPn+BfLI+KvqOFnWkuPcCTD8Z0oL4ijBX3rVaiXRmaDdNyNSilCULs5CNZpbXKpCw=="/>
+        </item>
+        <item>
+            <title>1.0.2</title>
             <pubDate>Fri, 05 Jun 2026 20:04:02 +0000</pubDate>
             <sparkle:version>1.0.4</sparkle:version>
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
@@ -17,14 +25,6 @@
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.2/PasteMe.dmg" length="2958807" type="application/octet-stream" sparkle:edSignature="NAhpn4bwf9zMai6Rgnk21ZH6/0ABbgAjSHmUrJ7kBPSnrjq3Xn14Q55Yx0ih7KD2hh3wN0eSU2ZhBS9SGSWJDg=="/>
-        </item>
-        <item>
-            <title>1.0.0</title>
-            <pubDate>Fri, 05 Jun 2026 16:32:33 +0000</pubDate>
-            <sparkle:version>1.0.0</sparkle:version>
-            <sparkle:shortVersionString>1.0.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.1/PasteMe.dmg" length="2958569" type="application/octet-stream" sparkle:edSignature="sjoSNaEjQBOleSOhcuxrIS8mVsryuhgxeSR3H7xhXEoUZC5YaqQTTBiwEu1bI5XyfyRudBfATKJJ6bEVIJzYCw=="/>
         </item>
     </channel>
 </rss>
