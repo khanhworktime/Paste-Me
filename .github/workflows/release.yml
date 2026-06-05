@@ -48,6 +48,13 @@ jobs:
           curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz -o sparkle.tar.xz
           mkdir sparkle_bin
           tar -xf sparkle.tar.xz -C sparkle_bin
+
+      - name: Adjust Bundle Version for Dual Build
+        run: |
+          if [ "${{ matrix.target }}" == "MacOS26" ]; then
+            CURRENT_VER=$(agvtool vers -terse | tr -d ' \n')
+            agvtool new-version -all "${CURRENT_VER}.15"
+          fi
           
       - name: Build App (No Archive to allow custom signing)
         run: |
