@@ -265,11 +265,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             }
             
             // 4. Gán Content (Inject ModelContext)
+            let visualEffect = NSVisualEffectView()
+            visualEffect.material = .underWindowBackground
+            visualEffect.blendingMode = .behindWindow
+            visualEffect.state = .active
+            window.contentView = visualEffect
+            
+            let hostingView: NSHostingView<AnyView>
             if let mainContext = self.modelContainer?.mainContext {
-                window.contentView = NSHostingView(rootView: SettingsView().modelContext(mainContext))
+                hostingView = NSHostingView(rootView: AnyView(SettingsView().modelContext(mainContext)))
             } else {
-                window.contentView = NSHostingView(rootView: SettingsView())
+                hostingView = NSHostingView(rootView: AnyView(SettingsView()))
             }
+            
+            hostingView.translatesAutoresizingMaskIntoConstraints = false
+            visualEffect.addSubview(hostingView)
+            
+            NSLayoutConstraint.activate([
+                hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
+                hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
+                hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
+                hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor)
+            ])
             
             self.settingsWindow = window
             window.makeKeyAndOrderFront(nil)

@@ -42,9 +42,8 @@ struct SettingsView: View {
             .scrollContentBackground(.hidden) 
         } detail: {
             ZStack {
-                // Glass background
-                VisualEffectView(material: .hudWindow, blendingMode: .behindWindow)
-                    .ignoresSafeArea()
+                // Clear background to inherit window's effect
+                Color.clear.ignoresSafeArea()
                 
                 Group {
                     if let selectedTab = selectedTab {
@@ -70,8 +69,8 @@ struct SettingsView: View {
             }
         }
         .frame(width: 600, height: 450)
-        // Set the window background to use popover material for premium glassmorphism
-        .background(VisualEffectView(material: .popover, blendingMode: .behindWindow).ignoresSafeArea())
+        // Use clear background to let the native NSWindow NSVisualEffectView shine through
+        .background(Color.clear)
         .onChange(of: launchAtLogin) { _, newValue in
             setLaunchAtLogin(enabled: newValue)
         }
