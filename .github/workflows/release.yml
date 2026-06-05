@@ -1,0 +1,75 @@
+name: Build & Release macOS App (No-Signing)
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Sparkle Binaries
+        run: |
+          curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz -o sparkle.tar.xz
+          mkdir sparkle_bin
+          tar -xf sparkle.tar.xz -C sparkle_bin
+          
+      - name: Build Archive
+        run: |
+          xcodebuild -scheme "PasteMe" \
+            -configuration Release \
+            -archivePath ./build/PasteMe.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export .app
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath ./build/PasteMe.xcarchive \
+            -exportPath ./dist \
+            -exportOptionsPlist ExportOptions.plist
+
+      - name: Ad-hoc Sign
+        run: |
+          codesign --force --deep -s - ./dist/PasteMe.app
+
+      - name: Create DMG
+        run: |
+          brew install create-dmg
+          create-dmg \
+            --volname "PasteMe Installer" \
+            --window-pos 200 120 \
+            --window-size 800 400 \
+            --app-drop-link 600 185 \
+            "dist/PasteMe.dmg" \
+            "dist/PasteMe.app"
+
+      - name: Generate Sparkle Signature
+        id: sparkle_sign
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          echo "$SPARKLE_PRIVATE_KEY" > sparkle_key.pem
+          ./sparkle_bin/bin/sign_update "dist/PasteMe.dmg" --ed-key-file sparkle_key.pem > release_info.txt
+          rm sparkle_key.pem
+          
+          cat release_info.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          repository: khanhworktime/paste-me-release
+          token: ${{ secrets.RELEASE_TOKEN }}
+          files: |
+            dist/PasteMe.dmg
+            release_info.txt
+

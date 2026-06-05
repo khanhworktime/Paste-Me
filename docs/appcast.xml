@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="[http://www.andymatuschak.org/xml-namespaces/sparkle](http://www.andymatuschak.org/xml-namespaces/sparkle)" version="2.0">
+    <channel>
+        <title>Tên App Của Bạn Changelog</title>
+        
+        <!-- ITEM 1: Bản update mới nhất -->
+        <item>
+            <title>Version 1.0.1</title>
+            <pubDate>Mon, 26 Jan 2026 12:00:00 +0000</pubDate>
+            <sparkle:version>1.0.1</sparkle:version>
+            <sparkle:shortVersionString>1.0.1</sparkle:shortVersionString>
+            <description>
+                <![CDATA[
+                <h2>What's new</h2>
+                <ul>
+                    <li>Fixed bug ABC.</li>
+                    <li>Added new feature XYZ.</li>
+                </ul>
+                ]]>
+            </description>
+            
+            <!-- Các thông số dưới lấy từ file release_info.txt ở GitHub Actions -->
+            <enclosure url="LINK_GITHUB_RELEASE_DOWNLOAD_FILE_DMG"
+                       length="SIZE_IN_BYTES"
+                       type="application/x-apple-diskimage"
+                       sparkle:edSignature="SIGNATURE_STRING_TU_ACTION"/>
+        </item>
+        
+    </channel>
+</rss>
