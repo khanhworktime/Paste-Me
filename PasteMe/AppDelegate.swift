@@ -217,11 +217,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         settingsWindow?.appearance = appearance
     }
     
+    @MainActor
     @objc func openAppFromMenu() {
         // Khi mở từ menu, ta muốn nó hiện ở màn hình chính hoặc màn hình có chuột
         toggleWindow()
     }
     
+    @MainActor
     @objc func openSettings() {
             // 1. Nếu cửa sổ đã tồn tại -> Focus vào nó luôn và return
             if let window = settingsWindow {
@@ -402,16 +404,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func setupHotKey() {
         hotKeyManager = HotKeyManager()
         hotKeyManager?.onHotKeyPushed = { [weak self] in
-            self?.toggleWindow()
+            DispatchQueue.main.async {
+                self?.toggleWindow()
+            }
         }
         
         hotKeyManager?.onClearHistoryPushed = { [weak self] in
-            guard let context = self?.modelContainer?.mainContext else { return }
-            do {
-                try context.delete(model: ClipItem.self)
-                try context.save()
-            } catch {
-                print("Failed to clear history via hotkey: \(error)")
+            Task { @MainActor in
+                guard let context = self?.modelContainer?.mainContext else { return }
+                do {
+                    try context.delete(model: ClipItem.self)
+                    try context.save()
+                } catch {
+                    print("Failed to clear history via hotkey: \(error)")
+                }
             }
         }
     }
