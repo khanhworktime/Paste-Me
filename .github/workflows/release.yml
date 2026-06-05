@@ -1,4 +1,4 @@
-name: Build & Release macOS App (No-Signing)
+name: Build & Release macOS App (Signed & Notarized)
 on:
   push:
     tags:
@@ -15,50 +15,107 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Apple Certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+          P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          KEYCHAIN_PASSWORD: "temp_password"
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # Import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
       - name: Setup Sparkle Binaries
         run: |
           curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz -o sparkle.tar.xz
           mkdir sparkle_bin
           tar -xf sparkle.tar.xz -C sparkle_bin
           
-      - name: Build Archive
+      - name: Build App (No Archive to allow custom signing)
         run: |
-          xcodebuild -scheme "PasteMe" \
+          xcodebuild build \
+            -scheme "PasteMe" \
             -configuration Release \
-            -archivePath ./build/PasteMe.xcarchive \
-            archive \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            -derivedDataPath ./build \
+            CODE_SIGN_IDENTITY="Developer ID Application" \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM="${{ secrets.TEAM_ID }}" \
+            OTHER_CODE_SIGN_FLAGS="--timestamp --options runtime" \
+            CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO
 
-      - name: Export .app
+      - name: Find Built App
+        id: find_app
         run: |
-          xcodebuild -exportArchive \
-            -archivePath ./build/PasteMe.xcarchive \
-            -exportPath ./dist \
-            -exportOptionsPlist ExportOptions.plist
+          APP_PATH=$(find ./build/Build/Products/Release -name "PasteMe.app" -type d | head -n 1)
+          echo "APP_PATH=$APP_PATH" >> $GITHUB_ENV
 
-      - name: Ad-hoc Sign
+      - name: Inside-out Deep Signing for Sparkle
         run: |
-          codesign --force --deep -s - ./dist/PasteMe.app
+          # Extract Apple Cert Hash to sign
+          APPLE_CERT_HASH=$(security find-identity -v -p codesigning | grep "Developer ID Application" | awk '{print $2}' | head -n 1)
+          echo "Using cert hash: $APPLE_CERT_HASH"
+          
+          # 1. Re-sign ALL individual Mach-O binaries in Sparkle
+          find "$APP_PATH/Contents/Frameworks/Sparkle.framework" -type f | while read f; do
+              if file "$f" | grep -q "Mach-O"; then
+                  codesign --force --options runtime --timestamp --sign "$APPLE_CERT_HASH" "$f"
+              fi
+          done
 
-      - name: Create DMG
+          # 2. Re-sign the nested bundles
+          find "$APP_PATH/Contents/Frameworks/Sparkle.framework" -path "*/XPCServices/*.xpc" -type d | while read xpc; do
+              codesign --force --options runtime --timestamp --sign "$APPLE_CERT_HASH" "$xpc"
+          done
+
+          find "$APP_PATH/Contents/Frameworks/Sparkle.framework" -name "*.app" -type d | while read app; do
+              codesign --force --options runtime --timestamp --sign "$APPLE_CERT_HASH" "$app"
+          done
+
+          # 3. Re-sign the framework bundle itself
+          codesign --force --options runtime --timestamp --sign "$APPLE_CERT_HASH" "$APP_PATH/Contents/Frameworks/Sparkle.framework"
+
+          # 4. Re-sign the main app bundle, preserving existing Xcode metadata
+          codesign --force --options runtime --timestamp --preserve-metadata=entitlements,identifier,requirements,flags --sign "$APPLE_CERT_HASH" "$APP_PATH"
+
+      - name: Verify Signature
+        run: codesign --verify --deep --strict --verbose=4 "$APP_PATH"
+
+      - name: Create DMG safely with ditto
         run: |
-          brew install create-dmg
-          create-dmg \
-            --volname "PasteMe Installer" \
-            --window-pos 200 120 \
-            --window-size 800 400 \
-            --app-drop-link 600 185 \
-            "dist/PasteMe.dmg" \
-            "dist/PasteMe.app"
+          mkdir DMG_STAGING
+          # CRITICAL: Use ditto, not cp -r!
+          ditto "$APP_PATH" "DMG_STAGING/PasteMe.app"
+          hdiutil create -volname "PasteMe Installer" -srcfolder "DMG_STAGING" -ov -format UDZO "PasteMe.dmg"
 
-      - name: Create Release
+      - name: Notarize DMG
+        env:
+          NOTARIZATION_USERNAME: ${{ secrets.NOTARIZATION_USERNAME }}
+          NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+        run: |
+          xcrun notarytool submit PasteMe.dmg --apple-id "$NOTARIZATION_USERNAME" --password "$NOTARIZATION_PASSWORD" --team-id "$TEAM_ID" --wait
+
+      - name: Staple Ticket
+        run: |
+          xcrun stapler staple PasteMe.dmg
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: |
-            dist/PasteMe.dmg
+          files: PasteMe.dmg
 
       - name: Setup Appcast Directory
         env:
@@ -67,7 +124,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git clone --branch gh-pages https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git gh-pages || (mkdir gh-pages && cd gh-pages && git init && git checkout -b gh-pages && git remote add origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git)
-          cp dist/PasteMe.dmg gh-pages/
+          cp PasteMe.dmg gh-pages/
 
       - name: Generate Sparkle Appcast
         env:

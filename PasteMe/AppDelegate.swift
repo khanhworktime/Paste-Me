@@ -164,7 +164,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func setupStatusBar() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "paperclip", accessibilityDescription: "PasteMe")
+            if let icon = NSImage(named: "MenuBarIcon") {
+                icon.isTemplate = true
+                button.image = icon
+            } else {
+                button.image = NSImage(systemSymbolName: "paperclip", accessibilityDescription: "PasteMe")
+            }
         }
         
         let menu = NSMenu()
