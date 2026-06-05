@@ -100,11 +100,21 @@ jobs:
       - name: Verify Signature
         run: codesign --verify --deep --strict --verbose=4 "$APP_PATH"
 
-      - name: Create DMG safely with ditto
+      - name: Create DMG with create-dmg
         run: |
+          brew install create-dmg
           mkdir DMG_STAGING
           ditto "$APP_PATH" "DMG_STAGING/PasteMe.app"
-          hdiutil create -volname "PasteMe Installer" -srcfolder "DMG_STAGING" -ov -format UDZO "${{ matrix.dmg_name }}"
+          create-dmg \
+            --volname "PasteMe Installer" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 144 \
+            --icon "PasteMe.app" 150 190 \
+            --hide-extension "PasteMe.app" \
+            --app-drop-link 450 190 \
+            "${{ matrix.dmg_name }}" \
+            "DMG_STAGING/"
 
       - name: Notarize DMG
         env:

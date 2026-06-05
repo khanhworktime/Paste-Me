@@ -229,69 +229,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     @MainActor
     @objc func openSettings() {
-            // 1. Nếu cửa sổ đã tồn tại -> Focus vào nó luôn và return
-            if let window = settingsWindow {
-                window.makeKeyAndOrderFront(nil)
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
-            
-            // 2. Nếu chưa -> Tạo mới
-            let window = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 450, height: 400), // Kích thước khớp với SettingsView
-                styleMask: [.titled, .closable, .miniaturizable, .fullSizeContentView], // Style hiện đại, không resizable
-                backing: .buffered,
-                defer: false
-            )
-            
-            // 3. Cấu hình
-            window.center()
-            window.setFrameAutosaveName("Settings")
-            window.title = "Settings"
-            window.titlebarAppearsTransparent = true
-            window.isReleasedWhenClosed = false
-            window.isOpaque = false
-            window.backgroundColor = .clear
-            
-            // 👇 QUAN TRỌNG: Gán delegate để xử lý khi đóng
-            window.delegate = self
-            
-            // Apply current theme
-            let theme = UserDefaults.standard.string(forKey: "appTheme") ?? "system"
-            switch theme {
-            case "light": window.appearance = NSAppearance(named: .aqua)
-            case "dark": window.appearance = NSAppearance(named: .darkAqua)
-            default: window.appearance = nil
-            }
-            
-            // 4. Gán Content (Inject ModelContext)
-            let visualEffect = NSVisualEffectView()
-            visualEffect.material = .underWindowBackground
-            visualEffect.blendingMode = .behindWindow
-            visualEffect.state = .active
-            window.contentView = visualEffect
-            
-            let hostingView: NSHostingView<AnyView>
-            if let mainContext = self.modelContainer?.mainContext {
-                hostingView = NSHostingView(rootView: AnyView(SettingsView().modelContext(mainContext)))
-            } else {
-                hostingView = NSHostingView(rootView: AnyView(SettingsView()))
-            }
-            
-            hostingView.translatesAutoresizingMaskIntoConstraints = false
-            visualEffect.addSubview(hostingView)
-            
-            NSLayoutConstraint.activate([
-                hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
-                hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
-                hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
-                hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor)
-            ])
-            
-            self.settingsWindow = window
-            window.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
+        // Trigger the native SwiftUI Settings Scene
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        
+        // Bring app to foreground
+        NSApp.activate(ignoringOtherApps: true)
+    }
         
         
     @objc func quitApp() {

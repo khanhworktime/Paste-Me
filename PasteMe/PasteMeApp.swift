@@ -5,6 +5,7 @@
 //  Created by Krist Dev on 20/1/26.
 //
 import SwiftUI
+import SwiftData
 
 @main
 struct PasteMeApp: App {
@@ -13,7 +14,12 @@ struct PasteMeApp: App {
     
     var body: some Scene {
         Settings {
-            EmptyView()
+            if let container = appDelegate.modelContainer {
+                SettingsView()
+                    .modelContainer(container)
+            } else {
+                SettingsView()
+            }
         }
         .commands {
             // Thêm menu vào thanh hệ thống
