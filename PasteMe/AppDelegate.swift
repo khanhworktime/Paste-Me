@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var settingsWindow: NSWindow?
     var previewPanel: NSPanel?
     var statusItem: NSStatusItem!
+    var lastTheme: String = ""
 
     override init() {
            super.init()
@@ -192,9 +193,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         statusItem.isVisible = UserDefaults.standard.bool(forKey: "showMenuBarIcon")
         
-        // Observe UserDefaults changes
-        NotificationCenter.default.addObserver(forName: UserDefaults.didChangeNotification, object: nil, queue: .main) { [weak self] _ in
+        // Observe explicit notifications from SettingsView
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("MenuBarIconChanged"), object: nil, queue: .main) { [weak self] _ in
             self?.statusItem.isVisible = UserDefaults.standard.bool(forKey: "showMenuBarIcon")
+        }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("AppThemeChanged"), object: nil, queue: .main) { [weak self] _ in
             self?.applyTheme()
         }
         

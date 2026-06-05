@@ -131,14 +131,20 @@ struct GeneralSettingsView: View {
             .padding(.bottom, 10)
             
             Section(header: Text("Appearance")) {
-                Picker("Theme", selection: $appTheme) {
+                Picker("App Theme", selection: $appTheme) {
                     Text("System").tag("system")
                     Text("Light").tag("light")
                     Text("Dark").tag("dark")
                 }
                 .pickerStyle(.segmented)
+                .onChange(of: appTheme) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name("AppThemeChanged"), object: nil)
+                }
                 
                 Toggle("Show Menu Bar Icon", isOn: $showMenuBarIcon)
+                .onChange(of: showMenuBarIcon) { _ in
+                    NotificationCenter.default.post(name: NSNotification.Name("MenuBarIconChanged"), object: nil)
+                }
             }
             
             Section(header: Text("Startup & Behavior")) {
