@@ -3,6 +3,14 @@
     <channel>
         <title>PasteMe</title>
         <item>
+            <title>1.0.2</title>
+            <pubDate>Fri, 05 Jun 2026 18:41:53 +0000</pubDate>
+            <sparkle:version>1.0.2</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.0.2/PasteMe.dmg" length="2960126" type="application/octet-stream" sparkle:edSignature="UEIxGllGxqc+N833wsnz/pIVqi3DjFwf4XBJ8IcHuh0xXLn0D/wlxD42UfKf7VMq/ha5O7rHJtyD/ASN3CS0Cw=="/>
+        </item>
+        <item>
             <title>1.0.0</title>
             <pubDate>Fri, 05 Jun 2026 16:32:33 +0000</pubDate>
             <sparkle:version>1.0.0</sparkle:version>
