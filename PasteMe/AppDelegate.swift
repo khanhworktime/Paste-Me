@@ -248,8 +248,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         window.center()
         window.setFrameAutosaveName("Settings")
         window.title = "Settings"
-        window.titlebarAppearsTransparent = true
         window.isReleasedWhenClosed = false
+        window.toolbarStyle = .unified
         
         window.delegate = self
         

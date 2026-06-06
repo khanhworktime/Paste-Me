@@ -31,16 +31,26 @@ struct SettingsView: View {
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedTab) {
-                ForEach(SettingsTab.allCases) { tab in
-                    Label(tab.rawValue, systemImage: tab.icon)
-                        .tag(tab)
+                NavigationLink(value: SettingsTab.general) {
+                    Label(SettingsTab.general.rawValue, systemImage: SettingsTab.general.icon)
+                }
+                NavigationLink(value: SettingsTab.hotkeys) {
+                    Label(SettingsTab.hotkeys.rawValue, systemImage: SettingsTab.hotkeys.icon)
+                }
+                NavigationLink(value: SettingsTab.history) {
+                    Label(SettingsTab.history.rawValue, systemImage: SettingsTab.history.icon)
+                }
+                NavigationLink(value: SettingsTab.advanced) {
+                    Label(SettingsTab.advanced.rawValue, systemImage: SettingsTab.advanced.icon)
+                }
+                NavigationLink(value: SettingsTab.support) {
+                    Label(SettingsTab.support.rawValue, systemImage: SettingsTab.support.icon)
                 }
             }
             .navigationSplitViewColumnWidth(min: 150, ideal: 180, max: 200)
+            .scrollContentBackground(.hidden)
         } detail: {
-            ZStack {
-                
-                Group {
+            Group {
                     if let selectedTab = selectedTab {
                         switch selectedTab {
                         case .general:
@@ -61,8 +71,6 @@ struct SettingsView: View {
                 }
                 .transition(.opacity.animation(.easeInOut(duration: 0.2)))
                 .id(selectedTab)
-            }
-            .navigationTitle("Settings")
         }
         .frame(width: 600, height: 450)
         .onChange(of: launchAtLogin) { _, newValue in
@@ -146,6 +154,7 @@ struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -179,6 +188,7 @@ struct HotkeysSettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -221,6 +231,7 @@ struct HistorySettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
 }
 
@@ -276,6 +287,7 @@ struct AdvancedSettingsView: View {
             }
         }
         .formStyle(.grouped)
+        .scrollContentBackground(.hidden)
     }
     
     func addApp() {
@@ -364,6 +376,7 @@ struct SupportSettingsView: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .scrollContentBackground(.hidden)
     }
 }
 
