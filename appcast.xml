@@ -3,6 +3,14 @@
     <channel>
         <title>PasteMe</title>
         <item>
+            <title>1.2.2</title>
+            <pubDate>Sat, 06 Jun 2026 08:53:02 +0000</pubDate>
+            <sparkle:version>1.2.2</sparkle:version>
+            <sparkle:shortVersionString>1.2.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.2.2/PasteMe.dmg" length="2785196" type="application/octet-stream" sparkle:edSignature="/kh7dJttHhW3bWVFxUHPUILmf6A7S1Vzw7a3NJnH4zvNBWnD+B9SqHJVVYxyNxqMiVlN8rAnxurpQtowV1F5BA=="/>
+        </item>
+        <item>
             <title>1.0.2</title>
             <pubDate>Sat, 06 Jun 2026 08:17:16 +0000</pubDate>
             <sparkle:version>1.2.1</sparkle:version>
@@ -17,17 +25,6 @@
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.2.0/PasteMe.dmg" length="3021097" type="application/octet-stream" sparkle:edSignature="FbAP024ZzN70tamIAxUlUyd/6g/6GT78stBeU7GvhrTL0RRKIm0uZfIfn/6/fmcZy/NOQLiwC0ZNxPCKNMmDBg=="/>
-        </item>
-        <item>
-            <title>1.0.2</title>
-            <pubDate>Fri, 05 Jun 2026 21:52:00 +0000</pubDate>
-            <sparkle:version>1.1.3.15</sparkle:version>
-            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.3/PasteMe-MacOS26.dmg" length="2627812" type="application/octet-stream" sparkle:edSignature="CPcyLn9N69FvfJO1dON0du0A0BcwQ3tE4Ac5o1vGyo0r4CNyCpXC4w1rIvWvamcM/ji1yks0z+zK8xTWi1HeDg=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.3/PasteMe1.1.3.15-1.1.3.delta" sparkle:deltaFrom="1.1.3" length="88086" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="980432" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="0v8EWfs+yohYSoMyaaNFscGm3CcFQjse9F2uy/whm400S0vFGa8bp8Uc74is19AqBOUyVy6uN/ktziSUhSztCg=="/>
-            </sparkle:deltas>
         </item>
         <item>
             <title>1.0.2</title>
