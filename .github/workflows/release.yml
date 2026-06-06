@@ -10,16 +10,6 @@ permissions:
 jobs:
   build:
     runs-on: macos-latest
-    strategy:
-      matrix:
-        include:
-          - target: "Legacy"
-            macos_version: "14.0"
-            dmg_name: "PasteMe.dmg"
-          - target: "MacOS26"
-            macos_version: "26.0"
-            dmg_name: "PasteMe-MacOS26.dmg"
-            
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -48,13 +38,6 @@ jobs:
           curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.8.1/Sparkle-2.8.1.tar.xz -o sparkle.tar.xz
           mkdir sparkle_bin
           tar -xf sparkle.tar.xz -C sparkle_bin
-
-      - name: Adjust Bundle Version for Dual Build
-        run: |
-          if [ "${{ matrix.target }}" == "MacOS26" ]; then
-            CURRENT_VER=$(agvtool vers -terse | tr -d ' \n')
-            agvtool new-version -all "${CURRENT_VER}.15"
-          fi
           
       - name: Build App (No Archive to allow custom signing)
         run: |
@@ -62,7 +45,7 @@ jobs:
             -scheme "PasteMe" \
             -configuration Release \
             -derivedDataPath ./build \
-            MACOSX_DEPLOYMENT_TARGET="${{ matrix.macos_version }}" \
+            MACOSX_DEPLOYMENT_TARGET="26.0" \
             CODE_SIGN_IDENTITY="Developer ID Application" \
             CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM="${{ secrets.TEAM_ID }}" \
@@ -100,21 +83,11 @@ jobs:
       - name: Verify Signature
         run: codesign --verify --deep --strict --verbose=4 "$APP_PATH"
 
-      - name: Create DMG with create-dmg
+      - name: Create DMG safely with ditto
         run: |
-          brew install create-dmg
           mkdir DMG_STAGING
           ditto "$APP_PATH" "DMG_STAGING/PasteMe.app"
-          create-dmg \
-            --volname "PasteMe Installer" \
-            --window-pos 200 120 \
-            --window-size 600 400 \
-            --icon-size 144 \
-            --icon "PasteMe.app" 150 190 \
-            --hide-extension "PasteMe.app" \
-            --app-drop-link 450 190 \
-            "${{ matrix.dmg_name }}" \
-            "DMG_STAGING/"
+          hdiutil create -volname "PasteMe Installer" -srcfolder "DMG_STAGING" -ov -format UDZO "PasteMe.dmg"
 
       - name: Notarize DMG
         env:
@@ -122,17 +95,17 @@ jobs:
           NOTARIZATION_PASSWORD: ${{ secrets.NOTARIZATION_PASSWORD }}
           TEAM_ID: ${{ secrets.TEAM_ID }}
         run: |
-          xcrun notarytool submit "${{ matrix.dmg_name }}" --apple-id "$NOTARIZATION_USERNAME" --password "$NOTARIZATION_PASSWORD" --team-id "$TEAM_ID" --wait
+          xcrun notarytool submit "PasteMe.dmg" --apple-id "$NOTARIZATION_USERNAME" --password "$NOTARIZATION_PASSWORD" --team-id "$TEAM_ID" --wait
 
       - name: Staple Ticket
         run: |
-          xcrun stapler staple "${{ matrix.dmg_name }}"
+          xcrun stapler staple "PasteMe.dmg"
           
       - name: Upload DMG Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.dmg_name }}
-          path: ${{ matrix.dmg_name }}
+          name: PasteMe.dmg
+          path: PasteMe.dmg
 
   publish:
     needs: build
