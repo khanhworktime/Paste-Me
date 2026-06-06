@@ -32,18 +32,13 @@ struct SettingsView: View {
         NavigationSplitView {
             List(selection: $selectedTab) {
                 ForEach(SettingsTab.allCases) { tab in
-                    NavigationLink(value: tab) {
-                        Label(tab.rawValue, systemImage: tab.icon)
-                    }
+                    Label(tab.rawValue, systemImage: tab.icon)
+                        .tag(tab)
                 }
             }
             .navigationSplitViewColumnWidth(min: 150, ideal: 180, max: 200)
-            // Transparent background for sidebar to let material show
-            .scrollContentBackground(.hidden) 
         } detail: {
             ZStack {
-                // Clear background to inherit window's effect
-                Color.clear.ignoresSafeArea()
                 
                 Group {
                     if let selectedTab = selectedTab {
@@ -67,10 +62,9 @@ struct SettingsView: View {
                 .transition(.opacity.animation(.easeInOut(duration: 0.2)))
                 .id(selectedTab)
             }
+            .navigationTitle("Settings")
         }
         .frame(width: 600, height: 450)
-        // Use clear background to let the native NSWindow NSVisualEffectView shine through
-        .background(Color.clear)
         .onChange(of: launchAtLogin) { _, newValue in
             setLaunchAtLogin(enabled: newValue)
         }
@@ -152,7 +146,6 @@ struct GeneralSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
     }
 }
 
@@ -186,7 +179,6 @@ struct HotkeysSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
     }
 }
 
@@ -229,7 +221,6 @@ struct HistorySettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
     }
 }
 
@@ -285,7 +276,6 @@ struct AdvancedSettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .scrollContentBackground(.hidden)
     }
     
     func addApp() {
@@ -374,7 +364,6 @@ struct SupportSettingsView: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .scrollContentBackground(.hidden)
     }
 }
 

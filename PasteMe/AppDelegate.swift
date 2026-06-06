@@ -250,8 +250,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         window.title = "Settings"
         window.titlebarAppearsTransparent = true
         window.isReleasedWhenClosed = false
-        window.isOpaque = false
-        window.backgroundColor = .clear
         
         window.delegate = self
         
@@ -263,13 +261,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         default: window.appearance = nil
         }
         
-        // 4. Native Glass Effect Structure
-        let visualEffect = NSVisualEffectView()
-        visualEffect.material = .underWindowBackground
-        visualEffect.blendingMode = .behindWindow
-        visualEffect.state = .active
-        window.contentView = visualEffect
-        
         let hostingView: NSHostingView<AnyView>
         if let mainContext = self.modelContainer?.mainContext {
             hostingView = NSHostingView(rootView: AnyView(SettingsView().modelContext(mainContext)))
@@ -277,19 +268,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             hostingView = NSHostingView(rootView: AnyView(SettingsView()))
         }
         
-        // MUST MAKE HOSTING VIEW BACKGROUND CLEAR SO IT DOES NOT BLOCK NSVisualEffectView
-        hostingView.layer?.backgroundColor = NSColor.clear.cgColor
-        hostingView.wantsLayer = true
-        
-        hostingView.translatesAutoresizingMaskIntoConstraints = false
-        visualEffect.addSubview(hostingView)
-        
-        NSLayoutConstraint.activate([
-            hostingView.leadingAnchor.constraint(equalTo: visualEffect.leadingAnchor),
-            hostingView.trailingAnchor.constraint(equalTo: visualEffect.trailingAnchor),
-            hostingView.topAnchor.constraint(equalTo: visualEffect.topAnchor),
-            hostingView.bottomAnchor.constraint(equalTo: visualEffect.bottomAnchor)
-        ])
+        window.contentView = hostingView
         
         self.settingsWindow = window
         window.makeKeyAndOrderFront(nil)
