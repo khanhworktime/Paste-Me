@@ -4,6 +4,14 @@
         <title>PasteMe</title>
         <item>
             <title>1.0.2</title>
+            <pubDate>Sat, 06 Jun 2026 08:13:29 +0000</pubDate>
+            <sparkle:version>1.2.0</sparkle:version>
+            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.2.0/PasteMe.dmg" length="3021097" type="application/octet-stream" sparkle:edSignature="FbAP024ZzN70tamIAxUlUyd/6g/6GT78stBeU7GvhrTL0RRKIm0uZfIfn/6/fmcZy/NOQLiwC0ZNxPCKNMmDBg=="/>
+        </item>
+        <item>
+            <title>1.0.2</title>
             <pubDate>Fri, 05 Jun 2026 21:52:00 +0000</pubDate>
             <sparkle:version>1.1.3.15</sparkle:version>
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
@@ -39,17 +47,6 @@
             <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
             <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.2/PasteMe.dmg" length="2628000" type="application/octet-stream" sparkle:edSignature="CWdgu3QXSxMeru9w+1ZI2GVBUS24TDTkryDG4jukglHd0zOoDD+nbEoxGpio5R6T4eT2P5onrFUEZA9sVEeqAw=="/>
-        </item>
-        <item>
-            <title>1.0.2</title>
-            <pubDate>Fri, 05 Jun 2026 21:35:52 +0000</pubDate>
-            <sparkle:version>1.1.1.15</sparkle:version>
-            <sparkle:shortVersionString>1.0.2</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.1/PasteMe-MacOS26.dmg" length="3019814" type="application/octet-stream" sparkle:edSignature="pPdyjZzwHBx0+j3NHCrbHshg/M6sv8bXg3eKtVH6U0tbw60I/VQbs9b4ouwmxwurxf6riExWzK8RY1Fq60PcBw=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/khanhworktime/Paste-Me/releases/download/v1.1.1/PasteMe1.1.1.15-1.1.1.delta" sparkle:deltaFrom="1.1.1" length="86906" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="980432" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="s79WWGZ0sDv6KtWfqe2gbo2pdmygefWA6horJkAgM+tev1M+rYUKeel7FITMcR9w5EDGQEwiTnCElb9n0AKCCA=="/>
-            </sparkle:deltas>
         </item>
         <item>
             <title>1.0.2</title>
